@@ -7,3 +7,8 @@ the data. As of now likely a database will be used with predefined popularity of
 
 ### What security and privacy concerns do you expect you (as developers) or your users to have with this application?
 It is likely that users may have concernes of their data/playlists or prviate information form their accounts shared/exposed. 
+
+### LINK
+https://snazzy-liger-6fc261.netlify.app/
+
+https://github.com/ckclassrooms/final-project-proposal-spotdata
