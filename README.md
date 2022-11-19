@@ -3,7 +3,9 @@ Spodatify
 [![Netlify Status](https://api.netlify.com/api/v1/badges/ea87ce8f-b21a-46be-b61c-18bed66891fc/deploy-status)](https://app.netlify.com/sites/snazzy-liger-6fc261/deploys)
 
 ---
-LINK: [SPODATIFY](snazzy-liger-6fc261.netlify.app
+LINK: [SPODATIFY](snazzy-liger-6fc261.netlify.app)
+
+
 Temporarly credentails to use: 
 Email: squeak_discs.0b@icloud.com
 Pass: squeak_discs.0b
