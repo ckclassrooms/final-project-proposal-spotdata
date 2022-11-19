@@ -8,7 +8,7 @@ LINK: [SPODATIFY](snazzy-liger-6fc261.netlify.app)
 
 Temporarly credentails to use: 
 Email: squeak_discs.0b@icloud.com
-Pass: squeak_discs.0b
+Password: squeak_discs.0b
 
 ### Current Progress
 The application has been set up as a front-end client side React applicaion. It connects to Supabase which handles the OAuth to Spotidy and provides back a token in order to communicate with the Spotify API. Movereover, additional options are added to authoraze certain access (to which the users is warned and agress on) such as profile and private playlists. An example is when clicked `Get User Info` the app is able to fetch private data such as location and email. I also tried to make it look a bit pretty( *dark mode* ). 
