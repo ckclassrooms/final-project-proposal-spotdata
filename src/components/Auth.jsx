@@ -35,7 +35,7 @@ function Auth({session, setSession, supabase}) {
                 <img src={reactLogo} className="logo react" alt="React logo" />
                 </a>
             </div>
-            <h1>Spotdata</h1>
+            <h1>Spodatify</h1>
             <div className="card">
                 {/* <button onClick={() => setCount((count) => count + 1)}> */}
 
