@@ -1,49 +1,23 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import reactLogo from '../assets/react.svg';
+import { useState, useEffect } from "react";
+import reactLogo from '../assets/planet.webp';
+import Playlist from './Playlist';
 
 function Auth({session, setSession, supabase}) {
 
-    const signInWithSpotify = async ()=>{
-        // Todo - Add logic to login via Spotify Oauth
+    const signInWithSpotify = async ()=>
+    {
         const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'spotify',
-    });   
-    }
-
-    const signOutWithSpotify = async ()=>{
-        const { error } = await supabase.auth.signOut();
-        setSession(null);
+            provider: 'spotify',
+            options: {
+                scopes: ['playlist-read-private','user-read-private']
+            }
+        });  
     }
 
     if (session != null){
         return ( 
-        
-        // <ul className="nav nav-pills navbar-expand navbar-light bg-light">
-        //     <li className="nav-item ms-auto"><button className="btn btn-primary m-1" id='logoutSubmit' onClick={()=>logoutSubmit()}>Logout</button></li>       
-        // </ul>
-        <div className="App">
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                <img src="/vite.svg" className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://reactjs.org" target="_blank">
-                <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                {/* <button onClick={() => setCount((count) => count + 1)}> */}
-
-                <button id='signInWithSpotify' onClick={() => signOutWithSpotify()}>
-                Logout with Spotify
-                </button>
-            </div>
-        <p className="read-the-docs">
-            Click on the Vite and React logos to learn more
-        </p>
-        </div>
-        
+            <Playlist session={session} setSession={setSession} supabase={supabase} />
         )
     }
     else {
@@ -57,14 +31,11 @@ function Auth({session, setSession, supabase}) {
         // </ul>
         <div className="App">
             <div>
-                <a href="https://vitejs.dev" target="_blank">
-                <img src="/vite.svg" className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://reactjs.org" target="_blank">
+                <a href="" target="_blank">
                 <img src={reactLogo} className="logo react" alt="React logo" />
                 </a>
             </div>
-            <h1>Vite + React</h1>
+            <h1>Spotdata</h1>
             <div className="card">
                 {/* <button onClick={() => setCount((count) => count + 1)}> */}
 
@@ -73,7 +44,7 @@ function Auth({session, setSession, supabase}) {
                 </button>
             </div>
         <p className="read-the-docs">
-            Click on the Vite and React logos to learn more
+            &#127881; Get a map of the people around the world who share your music taste! &#127881;
         </p>
         </div>
     )
