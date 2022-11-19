@@ -1,9 +1,9 @@
-Spodatify
+# Spodatify
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/ea87ce8f-b21a-46be-b61c-18bed66891fc/deploy-status)](https://app.netlify.com/sites/snazzy-liger-6fc261/deploys)
 
 ---
-LINK: [SPODATIFY](snazzy-liger-6fc261.netlify.app)
+LINK: [SPODATIFY](https://snazzy-liger-6fc261.netlify.app/)
 
 
 Temporarly credentails to use: 
@@ -24,6 +24,9 @@ The application will be able to OAuth Spotify users and use the sporitfy API to 
 
 ### What security and privacy concerns do you expect you (as developers) or your users to have with this application?
 It is likely that users may have concernes of their data/playlists or prviate information form their accounts shared/exposed. 
+
+### Architecture
+![Architecture](./img/Spodatify.jpg)
 
 ### Developer
 Mariya Pasheva (UIN: 679604082)
