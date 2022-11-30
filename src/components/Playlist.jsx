@@ -16,24 +16,23 @@ function Playlist({ session, setSession, supabase}) {
         setSession(null);
     }
 
-    // console.log(session);
+    useEffect(() => {
 
-    const getUserInfo = async () => {
-        // e.preventDefault() search up
-        const {data, error} = await axios.get("https://api.spotify.com/v1/me", {
-            headers: {
-                Authorization: `Bearer ${session.provider_token}`
-            }
-            // params: {
-            //     q: searchKey,
-            //     type: "artist"
-            // }
-        })
-        setUser(data);
-    }
+        const fetchData = async () => {
+            const {data, error} = await axios.get("https://api.spotify.com/v1/me", {
+                headers: {
+                    Authorization: `Bearer ${session.provider_token}`
+                }
+            });
+            setUser(data);
+          }
+          fetchData().catch(console.error);
+    }, []);
+
 
     const getPlaylists = async () => {
         // e.preventDefault() search up
+
         const {data, error} = await axios.get("https://api.spotify.com/v1/me/playlists", {
             headers: {
                 Authorization: `Bearer ${session.provider_token}`
@@ -55,27 +54,11 @@ function Playlist({ session, setSession, supabase}) {
         setPlaylists(currentPlaylists);
     }
 
-    const renderUser = () => {
-        return (
-            <div key={user.id}>
-                <h3> Profile name is: {user.display_name}</h3>
-                <h3> Profile country is: {user.country}</h3>
-                <h3> Profile email is: {user.email}</h3>
-            </div>
-        )
-    }
-
     const toggleComplete = (index) => {
-        console.log(index);
         setMapState(true);
     }
 
-    // const renderPlaylist = () => {
-    //     return (<p> something </p>
-    //     )
-    // }
-
-    function ListItem(props) {
+    function ListPlaylist(props) {
         // Correct! There is no need to specify the key here:
         const item = props.value;
         const index = props.index;
@@ -90,15 +73,13 @@ function Playlist({ session, setSession, supabase}) {
 						<span>{item.name}</span>
 					</>
             )}
-            {/* <li>{props.value}</li> */}
             </div>
         );
-      }
+    }
       
-    function NumberList(props) {
+    function RenderPlaylist(props) {
         console.log("props", props);
-        console.log("props", props.playlists);
-
+        // console.log("props", props.playlists);
 
         const allPlaylists = props.playlists;
 
@@ -106,7 +87,7 @@ function Playlist({ session, setSession, supabase}) {
             <div className='playlist-shadow'>
             <ul>
               {allPlaylists.map((aPlaylist, index) =>
-                <ListItem key={index}
+                <ListPlaylist key={index}
                           index={index} value={aPlaylist}/>
               )}
             </ul>
@@ -121,9 +102,6 @@ function Playlist({ session, setSession, supabase}) {
     }
     else {
         return (        
-            // <ul className="nav nav-pills navbar-expand navbar-light bg-light">
-            //     <li className="nav-item ms-auto"><button className="btn btn-primary m-1" id='logoutSubmit' onClick={()=>logoutSubmit()}>Logout</button></li>       
-            // </ul>
             <div className="App">
                 <div>
                     <a href="" target="_blank">
@@ -137,10 +115,6 @@ function Playlist({ session, setSession, supabase}) {
                     Logout with Spotify
                     </button>
 
-                    <button id='getUserInfo' onClick={() => getUserInfo()}>
-                    Get User Info
-                    </button>
-
                     <button id='signInWithSpotify' onClick={() => setMapState(true)}>
                     Show Map
                     </button>
@@ -149,9 +123,8 @@ function Playlist({ session, setSession, supabase}) {
                     Get Playlists
                     </button>
                 </div>
-                {renderUser()}
                 <div className='outer-playlist-border'>
-                    {NumberList({playlists})}
+                    {RenderPlaylist({playlists})}
                 </div>
             <p className="read-the-docs">
                 &#127881; Get a map of the people around the world who share your music taste! &#127881;

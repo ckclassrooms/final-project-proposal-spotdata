@@ -56,6 +56,7 @@ button {
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -63,7 +64,11 @@ button:focus-visible {
 
 /* CSS */
 .button-41 {
-  background-color: initial;
+  background:
+    linear-gradient(rgb(0, 0, 0) 0 0) 
+    left /100% var(--d, 0%) no-repeat;
+  transition: 0.5s;
+  background-color: #00bd68;
   background-image: linear-gradient(-180deg, #00D775, #00BD68);
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
@@ -90,7 +95,9 @@ button:focus-visible {
 }
 
 .button-41:hover {
-  background: #00bd68;
+  background: #535bf2;
+  --d: 100%;
+  color: #fff;
 }
 
 .outer-playlist-border{
@@ -118,6 +125,12 @@ button:focus-visible {
   background:  rgb(31, 193, 0.5);
   background-size: 200px 100px;
 } */
+
+.map-surrounding{
+  position:absolute;
+  padding: 0px;
+  margin:-500px;
+}
 
 @media (prefers-color-scheme: light) {
   :root {

@@ -1,7 +1,7 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
   text-align: center;
 }
 
@@ -38,7 +38,7 @@
 
 .map-container {
   height: 1000px;
-  width: 1000px;
+  width: 1680px;
 }
 
 .read-the-docs {
