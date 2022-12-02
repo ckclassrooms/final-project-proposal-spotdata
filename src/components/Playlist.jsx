@@ -7,7 +7,9 @@ import Map from './Map.jsx';
 
 function Playlist({ session, setSession, supabase}) {
 
+    const [artists, setArtists] = useState([])
     const [playlists, setPlaylists] = useState([])
+    const [currPlaylist, setPlaylist] = useState(null)
     const [user, setUser] = useState([])
     const [mapState, setMapState] = useState(false);
 
@@ -55,6 +57,7 @@ function Playlist({ session, setSession, supabase}) {
     }
 
     const toggleComplete = (index) => {
+        setPlaylist(playlists.at(index));
         setMapState(true);
     }
 
@@ -78,7 +81,7 @@ function Playlist({ session, setSession, supabase}) {
     }
       
     function RenderPlaylist(props) {
-        console.log("props", props);
+        // console.log("props", props);
         // console.log("props", props.playlists);
 
         const allPlaylists = props.playlists;
@@ -97,7 +100,7 @@ function Playlist({ session, setSession, supabase}) {
 
     if (mapState ===  true){
         return ( 
-            <Map session={session} setSession={setSession} supabase={supabase} />
+            <Map currPlaylist={currPlaylist} session={session} setSession={setSession} supabase={supabase} />
         )
     }
     else {
