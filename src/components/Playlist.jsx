@@ -86,41 +86,28 @@ function Playlist({ session, setSession, supabase}) {
     
         const sample_geojson = { "type": "FeatureCollection", "features": []};
         
-        for ( const a of get_result.data){ // a is an artist
-            // sample_geojson.features.push();
-            const outter_obj1 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
-            const outter_obj2 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
-            const outter_obj3 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
-            const outter_obj4 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
-            const outter_obj5 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
-    
-            outter_obj1.geometry.coordinates.push(a.city1_lng);
-            outter_obj1.geometry.coordinates.push(a.city1_lat);
-            outter_obj2.geometry.coordinates.push(a.city2_lng);
-            outter_obj2.geometry.coordinates.push(a.city2_lat);
-            outter_obj3.geometry.coordinates.push(a.city3_lng);
-            outter_obj3.geometry.coordinates.push(a.city3_lat);
-            outter_obj4.geometry.coordinates.push(a.city4_lng);
-            outter_obj4.geometry.coordinates.push(a.city4_lat);
-            outter_obj5.geometry.coordinates.push(a.city5_lng);
-            outter_obj5.geometry.coordinates.push(a.city5_lat);
-            outter_obj1.properties['number'] = a.city1_num;
-            outter_obj2.properties['number'] = a.city2_num;
-            outter_obj3.properties['number'] = a.city3_num;
-            outter_obj4.properties['number'] = a.city4_num;
-            outter_obj5.properties['number'] = a.city5_num;
-    
-            sample_geojson.features.push(outter_obj1);
-            sample_geojson.features.push(outter_obj2);
-            sample_geojson.features.push(outter_obj3);
-            sample_geojson.features.push(outter_obj4);
-            sample_geojson.features.push(outter_obj5);
-    
-            // console.log("a", a);
+        for (const item of get_result.data) {
+
+            const cities_coor = [[item.city1_lng, item.city1_lat],[item.city2_lng, item.city2_lat], [item.city3_lng, item.city3_lat], [item.city4_lng, item.city4_lat], [item.city5_lng, item.city5_lat]];
+            const cities_popularity = [item.city1_num, item.city2_num, item.city3_num, item.city4_num, item.city5_num];
+
+            for (let i = 0; i < cities_popularity.length; i++) {
+                const cluster_size = cities_popularity[i]/1000000 * 100;
+                for (let j = 0 ; j < cluster_size; j++) {
+                    sample_geojson.features.push({
+                        "type": "Feature",
+                        "properties": {
+                            "popularity": cities_popularity[i],
+                        },
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": cities_coor[i]
+                        }
+                    });
+                }
+            }
         }
-        
-        // num/1000000 * 100
-        // console.log(sample_geojson);
+
         setJsonData(sample_geojson);        
     }
 

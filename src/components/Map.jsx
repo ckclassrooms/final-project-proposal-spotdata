@@ -4,122 +4,22 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Playlist from './Playlist';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-
+import Cat from '../assets/logo-spotify-256.png';
 
 
 function Map({jsonData, session, setSession, supabase}) {
    
-    // console.log("currPlaylist", currPlaylist);
-
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [lng, setLng] = useState(25.1);
-    const [lat, setLat] = useState(35.1);
-    const [zoom, setZoom] = useState(1.8);
+    const [lat, setLat] = useState(25.1);
+    const [zoom, setZoom] = useState(1.7);
 
-    console.log('The geo json data:', jsonData);
+    // console.log('The geo json data:', jsonData);
 
-    // const generateInfo = async () => {
-    //     console.log("Generating....")
-    //     // useEffect(() => {
-    //         // const fetchData = async () => {
-    //             const {data, error} = await axios.get(currPlaylist.tracks['href'], {
-    //                 headers: {
-    //                     Authorization: `Bearer ${session.provider_token}`
-    //                 },
-    //                 params: {
-    //                     playlist_id: currPlaylist.id,
-    //                     limit: 50,
-    //                     offser: 0
-    //                 }
-    //             });
-    
-    //             // Preventing copies of artists.
-    //             const tempSet = new Set();
-    //             for (const item of data.items) {
-    //                 // console.log("ID: ", item.track.artists[0].id, "Name: ", item.track.artists[0].name);
-    //                 tempSet.add(item.track.artists[0].id);
-    //             }
-    //             // Converting to arr for query lookup
-    //             const tempArr = Array.from(tempSet);
-    
-    //             const get_result = await supabase
-    //             .from('artists_poppularity')
-    //             .select('*')
-    //             .in('artitst_id',tempArr);
-    
-    //             // console.log("WHERE IS THE DATAAAA???", get_result.data);
-    //             setArtists(get_result.data);
-    //     // }
-    //         //   fetchData().catch(console.error)
-    
-    //     // }, []);
-    
-    
-    //     // console.log("artists", artists);
-    
-    //     // const sample_geojson = {};
-    
-    
-    //         // (async function loop() {
-    //         //     for (let i = 0; i < artists.length; i++) {
-    //         //         await delay(Math.random() * 1000);
-    //         //         console.log(i);
-    //         //         sample_geojson.features.push({
-    //         //             "type": "Feature",
-    //         //             "properties": {},
-    //         //             "geometry": 
-    //         //             {
-    //         //                 "type": "Point",
-    //         //                 "coordinates": [artists[i].long, artists[i].lat]
-    //         //             }    
-    //         //         });
-    //         //     }
-    //         // }
-    
-    //     const sample_geojson = { "type": "FeatureCollection", "features": []};
-        
-    //     for ( const a of artists){
-    //         // sample_geojson.features.push();
-    //         const outter_obj1 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
-    //         const outter_obj2 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
-    //         const outter_obj3 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
-    //         const outter_obj4 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
-    //         const outter_obj5 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
-    
-    //         outter_obj1.geometry.coordinates.push(a.city1_lng);
-    //         outter_obj1.geometry.coordinates.push(a.city1_lat);
-    //         outter_obj2.geometry.coordinates.push(a.city2_lng);
-    //         outter_obj2.geometry.coordinates.push(a.city2_lat);
-    //         outter_obj3.geometry.coordinates.push(a.city3_lng);
-    //         outter_obj3.geometry.coordinates.push(a.city3_lat);
-    //         outter_obj4.geometry.coordinates.push(a.city4_lng);
-    //         outter_obj4.geometry.coordinates.push(a.city4_lat);
-    //         outter_obj5.geometry.coordinates.push(a.city5_lng);
-    //         outter_obj5.geometry.coordinates.push(a.city5_lat);
-    //         outter_obj1.properties['number'] = a.city1_num;
-    //         outter_obj2.properties['number'] = a.city2_num;
-    //         outter_obj3.properties['number'] = a.city3_num;
-    //         outter_obj4.properties['number'] = a.city4_num;
-    //         outter_obj5.properties['number'] = a.city5_num;
-    
-    //         sample_geojson.features.push(outter_obj1);
-    //         sample_geojson.features.push(outter_obj2);
-    //         sample_geojson.features.push(outter_obj3);
-    //         sample_geojson.features.push(outter_obj4);
-    //         sample_geojson.features.push(outter_obj5);
-    
-    //         // console.log("a", a);
-    //     }
-        
-    //     // num/1000000 * 100
-    //     console.log(sample_geojson);
-    //     setJsonData(sample_geojson);
-    //     // console.log(sample_geojson);
-    //     console.log("Done generating");
+    const imageCat = new Image();
+    imageCat.src = Cat;
 
-    // }
-    
     // const generateMap = () => {
         useEffect(() => {
 
@@ -127,18 +27,14 @@ function Map({jsonData, session, setSession, supabase}) {
             map.current = new mapboxClient.Map({
               container: mapContainer.current,
               projection: 'mercator',
-              style: 'mapbox://styles/mpashe2/clb2u2grw000i14mlc7217lsm',
+              style: 'mapbox://styles/mpashe2/clb8i4wkf000z14qrfwu0jdrz',
               center: [lng, lat],
               zoom: zoom
+              
             });
             
             map.current.addControl(new mapboxClient.FullscreenControl());
     
-            // function sourceRefresh(e) {
-            //     console.log('Refreshe has been called')
-            //     map.getSource('artists_popularity').setData(sample_geojson);
-            // };
-            
         
             map.current.on('load', () => {
                 // Add a new source from our GeoJSON data and
@@ -154,10 +50,10 @@ function Map({jsonData, session, setSession, supabase}) {
                     data: jsonData,
                     cluster: true,
                     clusterMaxZoom: 10, // Max zoom to cluster points on
-                    clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+                    clusterRadius: 5, // Radius of each cluster when clustering points (defaults to 50)
                 });
             
-    
+            
                 map.current.addLayer({
                         id: 'clusters',
                         type: 'circle',
@@ -172,51 +68,85 @@ function Map({jsonData, session, setSession, supabase}) {
                         'circle-color': [
                             'step',
                             ['get', 'point_count'],
-                            '#51bbd6',
-                            100,
-                            '#f1f075',
-                            750,
-                            '#f28cb1'
+                            '#df1af5',
+                            20,
+                            '#f27815',
+                            50,
+                            '#f7ec17',
+                            70,
+                            '#44fa02',
                         ],
                         'circle-radius': [
                             'step',
-                            ['get', 'point_count'],
-                            20,
-                            100,
-                            30,
-                            750,
-                            40
+                            ['get', 'point_count'], 50, // all points : raidus 50
+                            20, 60,  // points avobe 60 : radius 200....ect.
+                            60, 80 
                         ],
-                        'circle-opacity': 0.6,
-                        }
+                        'circle-blur': 1,
+                        'circle-opacity': 0.8
+                        },
                 }); 
                  
-                map.current.addLayer({
-                    id: 'cluster-count',
-                    type: 'symbol',
-                    source: 'artists_popularity',
-                    filter: ['has', 'point_count'],
-                    layout: {
-                    'text-field': '{point_count_abbreviated}',
-                    // "text-field": ["get", "sum"],
-                    'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-                    'text-size': 12
+                // Text numbers to vizualize the number of points in each cluster
+                // map.current.addLayer({
+                //     id: 'cluster-count',
+                //     type: 'symbol',
+                //     source: 'artists_popularity',
+                //     filter: ['has', 'point_count'],
+                //     layout: {
+                //         'text-field': '{point_count_abbreviated}',
+                //         // "text-field": ["get", "sum"],
+                //         'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                //         'text-size': 12,
+                //     },
+                //     'paint': {
+                //         'text-color': '#fff',
+                //         // 'text-halo-color': '#fff',
+                //         // 'text-halo-width': 2
+                //     }
+                // });
+
+              
+                map.current.addImage('spotify-logo', imageCat);
+                map.current.addSource('point', {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'FeatureCollection',
+                        'features': [
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-127.31364010942333, -47.23786323721275] // [-77.4144, 25.0759]
+                                }
+                            }
+                        ]
                     }
                 });
-                 
+
                 map.current.addLayer({
-                    id: 'unclustered-point',
-                    type: 'circle',
-                    source: 'artists_popularity',
-                    filter: ['!', ['has', 'point_count']],
-                    paint: {
-                    'circle-color': '#11b4da',
-                    'circle-radius': 4,
-                    'circle-stroke-width': 1,
-                    'circle-stroke-color': '#fff',
-                    // 'circle-opacity': 0.05,
-                    }
+                    'id': 'points',
+                    'type': 'symbol',
+                    'source': 'point', // reference the data source
+                    'layout': {
+                        'icon-image': 'spotify-logo', // reference the image
+                        'icon-size': 0.45
+                      }
                 });
+            
+            
+                // map.current.addLayer({
+                //     id: 'unclustered-point',
+                //     type: 'circle',
+                //     source: 'artists_popularity',
+                //     filter: ['!', ['has', 'point_count']],
+                //     paint: {
+                //     'circle-color': '#11b4da',
+                //     'circle-radius': 4,
+                //     'circle-stroke-width': 1,
+                //     'circle-stroke-color': '#fff',
+                //     }
+                // });
                  
                 // inspect a cluster on click
                 // map.current.on('click', 'clusters', (e) => {
@@ -236,11 +166,7 @@ function Map({jsonData, session, setSession, supabase}) {
                 //     }
                 //     );
                 // });
-                 
-                // // When a click event occurs on a feature in
-                // // the unclustered-point layer, open a popup at
-                // // the location of the feature, with
-                // // description HTML from its properties.
+                
                 // map.current.on('click', 'unclustered-point', (e) => {
                 // const coordinates = e.features[0].geometry.coordinates.slice();
                 // const mag = e.features[0].properties.mag;
@@ -271,15 +197,6 @@ function Map({jsonData, session, setSession, supabase}) {
         
             
             });
-        
-            
-            map.current.on('reload', () => {
-                console.log('A data event occurred.');
-                // lineData.coordinates = [[-104.990723933979,  39.7495586313634]]
-                let geojsonSource = map.current.getSource('artists_popularity');
-                console.log('setData is returning: ', geojsonSource.setData(jsonData));
-                console.log('The geojson source is: ', geojsonSource._data);
-            });
     
         });
     // }
@@ -293,11 +210,12 @@ function Map({jsonData, session, setSession, supabase}) {
                 {/* <button onClick={() => generateMap()}>
                         Get Map
                 </button> */}
+                <p className='header-style'>Which country does your music taste resemble? </p>
                 <div ref={mapContainer} className="map-container" /> 
                     <div>
-                    <button id='tryAgain' >
+                    {/* <button id='tryAgain' >
                         <Link to={-1}>Try Again</Link>
-                    </button>       
+                    </button>        */}
                     {/* <button onClick={() => generateInfo()}>
                         Get Playlists
                     </button> */}
