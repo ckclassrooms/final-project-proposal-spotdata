@@ -7,11 +7,12 @@ import Map from './Map.jsx';
 
 function Playlist({ session, setSession, supabase}) {
 
-    const [artists, setArtists] = useState([])
     const [playlists, setPlaylists] = useState([])
-    const [currPlaylist, setPlaylist] = useState(null)
+    // const [currPlaylist, setPlaylist] = useState(null)
     const [user, setUser] = useState([])
     const [mapState, setMapState] = useState(false);
+    // const [jsonData, setJsonData] = useState({ "type": "FeatureCollection", "features": []});
+    const [jsonData, setJsonData] = useState(null);
 
     const signOutWithSpotify = async ()=>{
         const { error } = await supabase.auth.signOut();
@@ -56,9 +57,78 @@ function Playlist({ session, setSession, supabase}) {
         setPlaylists(currentPlaylists);
     }
 
-    const toggleComplete = (index) => {
-        setPlaylist(playlists.at(index));
-        setMapState(true);
+    const generateData = async (currPlaylist) => {
+
+        const {data, error} = await axios.get(currPlaylist.tracks['href'], {
+            headers: {
+                Authorization: `Bearer ${session.provider_token}`
+            },
+            params: {
+                playlist_id: currPlaylist.id,
+                limit: 50,
+                offser: 0
+            }
+        });
+
+        // Preventing copies of artists.
+        const tempSet = new Set();
+        for (const item of data.items) {
+            // console.log("ID: ", item.track.artists[0].id, "Name: ", item.track.artists[0].name);
+            tempSet.add(item.track.artists[0].id);
+        }
+        // Converting to arr for query lookup
+        const tempArr = Array.from(tempSet);
+
+        const get_result = await supabase
+        .from('artists_poppularity')
+        .select('*')
+        .in('artitst_id',tempArr);
+    
+        const sample_geojson = { "type": "FeatureCollection", "features": []};
+        
+        for ( const a of get_result.data){ // a is an artist
+            // sample_geojson.features.push();
+            const outter_obj1 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
+            const outter_obj2 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
+            const outter_obj3 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
+            const outter_obj4 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
+            const outter_obj5 = { "type": "Feature", "properties": {}, "geometry": { "type": "Point", "coordinates": []}};
+    
+            outter_obj1.geometry.coordinates.push(a.city1_lng);
+            outter_obj1.geometry.coordinates.push(a.city1_lat);
+            outter_obj2.geometry.coordinates.push(a.city2_lng);
+            outter_obj2.geometry.coordinates.push(a.city2_lat);
+            outter_obj3.geometry.coordinates.push(a.city3_lng);
+            outter_obj3.geometry.coordinates.push(a.city3_lat);
+            outter_obj4.geometry.coordinates.push(a.city4_lng);
+            outter_obj4.geometry.coordinates.push(a.city4_lat);
+            outter_obj5.geometry.coordinates.push(a.city5_lng);
+            outter_obj5.geometry.coordinates.push(a.city5_lat);
+            outter_obj1.properties['number'] = a.city1_num;
+            outter_obj2.properties['number'] = a.city2_num;
+            outter_obj3.properties['number'] = a.city3_num;
+            outter_obj4.properties['number'] = a.city4_num;
+            outter_obj5.properties['number'] = a.city5_num;
+    
+            sample_geojson.features.push(outter_obj1);
+            sample_geojson.features.push(outter_obj2);
+            sample_geojson.features.push(outter_obj3);
+            sample_geojson.features.push(outter_obj4);
+            sample_geojson.features.push(outter_obj5);
+    
+            // console.log("a", a);
+        }
+        
+        // num/1000000 * 100
+        // console.log(sample_geojson);
+        setJsonData(sample_geojson);        
+    }
+
+
+    const toggleComplete = async (index) => {
+        // setPlaylist(playlists.at(index));
+        await generateData(playlists.at(index)).then(setMapState(true));
+        // setMapState(true);
     }
 
     function ListPlaylist(props) {
@@ -99,9 +169,13 @@ function Playlist({ session, setSession, supabase}) {
     }
 
     if (mapState ===  true){
-        return ( 
-            <Map currPlaylist={currPlaylist} session={session} setSession={setSession} supabase={supabase} />
-        )
+        if (jsonData === null) {
+            return <>Still loading...</>;
+        }else{
+            return ( 
+                <Map jsonData={jsonData} session={session} setSession={setSession} supabase={supabase} />
+            )
+        }
     }
     else {
         return (        
@@ -118,9 +192,9 @@ function Playlist({ session, setSession, supabase}) {
                     Logout with Spotify
                     </button>
 
-                    <button id='signInWithSpotify' onClick={() => setMapState(true)}>
+                    {/* <button id='signInWithSpotify' onClick={() => setMapState(true)}>
                     Show Map
-                    </button>
+                    </button> */}
 
                     <button className='button-41 'id='signInWithSpotify' onClick={() => getPlaylists()}>
                     Get Playlists
