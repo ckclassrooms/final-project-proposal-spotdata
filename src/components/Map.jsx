@@ -78,9 +78,9 @@ function Map({jsonData, session, setSession, supabase}) {
                     ],
                     'circle-radius': [
                         'step',
-                        ['get', 'point_count'], 15, // all points : raidus 50
-                        50, 25,  // points avobe x : radius y....ect.
-                        70, 45
+                        ['get', 'point_count'], 20, // all points : raidus 50
+                        50, 30,  // points avobe x : radius y....ect.
+                        70, 50
                     ],
                     'circle-blur': 1,
                     'circle-opacity': 0.8

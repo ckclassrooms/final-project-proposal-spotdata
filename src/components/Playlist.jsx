@@ -8,10 +8,8 @@ import Map from './Map.jsx';
 function Playlist({ session, setSession, supabase}) {
 
     const [playlists, setPlaylists] = useState([])
-    // const [currPlaylist, setPlaylist] = useState(null)
     const [user, setUser] = useState([])
     const [mapState, setMapState] = useState(false);
-    // const [jsonData, setJsonData] = useState({ "type": "FeatureCollection", "features": []});
     const [jsonData, setJsonData] = useState(null);
 
     const signOutWithSpotify = async ()=>{
@@ -34,7 +32,7 @@ function Playlist({ session, setSession, supabase}) {
 
 
     const getPlaylists = async () => {
-        // e.preventDefault() search up
+        // e.preventDefault() 
 
         const {data, error} = await axios.get("https://api.spotify.com/v1/me/playlists", {
             headers: {
@@ -47,14 +45,14 @@ function Playlist({ session, setSession, supabase}) {
         })
 
 
-        let currentPlaylists = [];
+        let userPlaylistsArr = [];
         for (const playlist of data.items) {
             if (playlist.owner.id === user.id) { // Get only lists that belong to the user
                 playlist["isSelect"] = false;
-                currentPlaylists.push(playlist);
+                userPlaylistsArr.push(playlist);
             }
         }
-        setPlaylists(currentPlaylists);
+        setPlaylists(userPlaylistsArr);
     }
 
     const generateData = async (currPlaylist) => {
@@ -71,22 +69,22 @@ function Playlist({ session, setSession, supabase}) {
         });
 
         // Preventing copies of artists.
-        const tempSet = new Set();
+        const artistsSet = new Set();
         for (const item of data.items) {
             // console.log("ID: ", item.track.artists[0].id, "Name: ", item.track.artists[0].name);
-            tempSet.add(item.track.artists[0].id);
+            artistsSet.add(item.track.artists[0].id);
         }
         // Converting to arr for query lookup
-        const tempArr = Array.from(tempSet);
+        const artistsArr = Array.from(artistsSet);
 
-        const get_result = await supabase
+        const getArtistsPopularityData = await supabase
         .from('artists_poppularity')
         .select('*')
-        .in('artitst_id',tempArr);
+        .in('artitst_id',artistsArr);
     
-        const sample_geojson = { "type": "FeatureCollection", "features": []};
+        const artistsPopularityLocGeojson = { "type": "FeatureCollection", "features": []};
         
-        for (const item of get_result.data) {
+        for (const item of getArtistsPopularityData.data) {
 
             const cities_coor = [[item.city1_lng, item.city1_lat],[item.city2_lng, item.city2_lat], [item.city3_lng, item.city3_lat], [item.city4_lng, item.city4_lat], [item.city5_lng, item.city5_lat]];
             const cities_popularity = [item.city1_num, item.city2_num, item.city3_num, item.city4_num, item.city5_num];
@@ -94,7 +92,7 @@ function Playlist({ session, setSession, supabase}) {
             for (let i = 0; i < cities_popularity.length; i++) {
                 const cluster_size = Math.floor(cities_popularity[i]/1000000 * 100); 
                 for (let j = 0 ; j < cluster_size; j++) {
-                    sample_geojson.features.push({
+                    artistsPopularityLocGeojson.features.push({
                         "type": "Feature",
                         "properties": {
                             "popularity": cities_popularity[i],
@@ -107,14 +105,12 @@ function Playlist({ session, setSession, supabase}) {
                 }
             }
         }
-        setJsonData(sample_geojson);        
+        setJsonData(artistsPopularityLocGeojson);        
     }
 
 
     const toggleComplete = async (index) => {
-        // setPlaylist(playlists.at(index));
         await generateData(playlists.at(index)).then(setMapState(true));
-        // setMapState(true);
     }
 
     function ListPlaylist(props) {

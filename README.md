@@ -6,16 +6,24 @@
 LINK: [SPODATIFY](https://snazzy-liger-6fc261.netlify.app/)
 
 
-Temporarly credentails to use: 
-Email: squeak_discs.0b@icloud.com
-Password: squeak_discs.0b
+### Final Insturctions 
+1. Please use the credentials above to login.
+    ```
+    squeak_discs.0b@icloud.com
+    Spotdatify123!
+    ```
+2. Click on `Get Playlists`.
+3. Select any of the shown playlists.
+4. Give it a few seconds...
+5. TADA! Map!
+6. To try another playlist refresh the page.
 
-### Current Progress
-The application has been set up as a front-end client side React applicaion. It connects to Supabase which handles the OAuth to Spotidy and provides back a token in order to communicate with the Spotify API. Movereover, additional options are added to authoraze certain access (to which the users is warned and agress on) such as profile and private playlists. An example is when clicked `Get User Info` the app is able to fetch private data such as location and email. I also tried to make it look a bit pretty( *dark mode* ). 
+### What has been done and what needs improvement?
+The application has been set up as a front-end client side React applicaion. It connects to Supabase which handles the OAuth to Spotify and provides back a token in order to communicate with the Spotify API. Movereover, additional options are added to authoraze certain access (to which the users is warned and agress on) such as profile and private playlists. After that the personal playlists are shown to the user and upon selecting one API calls are made to pull all the aritsts and compares to those in the database to get their current popularity in five cities. Those are accumulated in a geojson file and displayed after a few seconds to the use via the Mapbox API. The map displays a cluster of artists' popularity scaled as a percentage of a milion. (Usually an artist has a few thousands listeners in a city.) The legend of the cluster colors goest from the least to the most.  `pink ->  orange -> yellow -> green`.
 
-### What's next?
-Use the Spotify API to pull playlists and get locations fron the Supabase database to display them by using Mapbox's API. 
+As of improvement, the application definitely needs more data as it uses a very small set of artists. Also, the database is simple and consists of a single table which coordinates refer to the same city and causes repetitevness. A better solution is to have two tables and perform a join based on the city name. (I had issues doing joins with supabase). Also, I could not find a better way of displaying the popularity numbers. I initial had them show up on the map but it ruined the aesthetic. I great addition for that would be to add a chart with top 5 cities for an user and list the number of listeners there.
 
+---
 ### What does your application do?
 The application should allow an user to connect to their Spotify account and then pull their selected playlists with songs and in return get a map of people from cities which also have same interests in music as them based on the artists' top listeners location. 
 
