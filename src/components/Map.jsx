@@ -78,9 +78,9 @@ function Map({jsonData, session, setSession, supabase}) {
                         ],
                         'circle-radius': [
                             'step',
-                            ['get', 'point_count'], 50, // all points : raidus 50
-                            20, 60,  // points avobe 60 : radius 200....ect.
-                            60, 80 
+                            ['get', 'point_count'], 15, // all points : raidus 50
+                            50, 25,  // points avobe x : radius y....ect.
+                            70, 45
                         ],
                         'circle-blur': 1,
                         'circle-opacity': 0.8
@@ -117,7 +117,7 @@ function Map({jsonData, session, setSession, supabase}) {
                                 'type': 'Feature',
                                 'geometry': {
                                     'type': 'Point',
-                                    'coordinates': [-127.31364010942333, -47.23786323721275] // [-77.4144, 25.0759]
+                                    'coordinates': [-123.31364010942333, -47.23786323721275] // [-77.4144, 25.0759]
                                 }
                             }
                         ]
@@ -130,7 +130,7 @@ function Map({jsonData, session, setSession, supabase}) {
                     'source': 'point', // reference the data source
                     'layout': {
                         'icon-image': 'spotify-logo', // reference the image
-                        'icon-size': 0.45
+                        'icon-size': 0.60
                       }
                 });
             
@@ -210,7 +210,7 @@ function Map({jsonData, session, setSession, supabase}) {
                 {/* <button onClick={() => generateMap()}>
                         Get Map
                 </button> */}
-                <p className='header-style'>Which country does your music taste resemble? </p>
+                <p className='header-style'>Which cities share your music taste? </p>
                 <div ref={mapContainer} className="map-container" /> 
                     <div>
                     {/* <button id='tryAgain' >

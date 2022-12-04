@@ -92,7 +92,7 @@ function Playlist({ session, setSession, supabase}) {
             const cities_popularity = [item.city1_num, item.city2_num, item.city3_num, item.city4_num, item.city5_num];
 
             for (let i = 0; i < cities_popularity.length; i++) {
-                const cluster_size = cities_popularity[i]/1000000 * 100;
+                const cluster_size = Math.floor(cities_popularity[i]/1000000 * 100); 
                 for (let j = 0 ; j < cluster_size; j++) {
                     sample_geojson.features.push({
                         "type": "Feature",
@@ -107,7 +107,6 @@ function Playlist({ session, setSession, supabase}) {
                 }
             }
         }
-
         setJsonData(sample_geojson);        
     }
 
