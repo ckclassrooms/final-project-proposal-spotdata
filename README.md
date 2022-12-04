@@ -10,13 +10,15 @@ LINK: [SPODATIFY](https://snazzy-liger-6fc261.netlify.app/)
 1. Please use these credentials to login.
     ```
     squeak_discs.0b@icloud.com
+    ```
+    ```
     Spotdatify123!
     ```
 2. Click on `Get Playlists`.
 3. Select any of the shown playlists.
 4. Give it a few seconds...
 5. TADA! Map!
-6. To try another playlist refresh the page.
+6. Refresh the page to try another playlist.
 
 ### What has been done and what needs improvement?
 The application has been set up as a front-end client side React applicaion. It connects to Supabase which handles the OAuth to Spotify and provides back a token in order to communicate with the Spotify API. Movereover, additional options are added to authoraze certain access (to which the users is warned and agress on) such as profile and private playlists. After that the personal playlists are shown to the user and upon selecting one API calls are made to pull all the aritsts and compares to those in the database to get their current popularity in five cities. Those are accumulated in a geojson file and displayed after a few seconds to the use via the Mapbox API. The map displays a cluster of artists' popularity scaled as a percentage of a milion. (Usually an artist has a few thousands listeners in a city.) The legend of the cluster colors goest from the least to the most.  `pink ->  orange -> yellow -> green`.
