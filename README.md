@@ -7,7 +7,7 @@ LINK: [SPODATIFY](https://snazzy-liger-6fc261.netlify.app/)
 
 
 ### Final Insturctions 
-1. Please use the credentials above to login.
+1. Please use these credentials to login.
     ```
     squeak_discs.0b@icloud.com
     Spotdatify123!
